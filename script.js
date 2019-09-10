@@ -2,7 +2,7 @@ const DATAATTR = "data-action";
 const OPERATORS = {add: opAdd , sub: opSub , mul: opMul, div: opDiv };
 const COMMANDS = { acc: cmdAcc , clr : cmdClr , bck : cmdBck , 
                    equ : cmdEqu , dot : cmdDot };
-const ADD= '+' , SUB= '-', MUL= 'x', DIV= '÷';
+const ADD= '+' , SUB= '-', MUL= 'x', DIV= '/';
 const SYMBOLS = { add: ADD , sub: SUB , mul: MUL, div: DIV };
 
 const MAX_LENGTH = 10;
@@ -16,14 +16,6 @@ let firstOperator = null;
 let secondNumber = null;
 let secondOperator = null;
 let visorNumber = null;
-
-/*
-  TODO LIST:
-    - state machine
-    - en executeOp reducir
-    - executeNum
-    - all command functions 
-*/
 
 function opAdd(a,b){
     return (a + b);
@@ -198,10 +190,18 @@ function getLowerDisplay() {
 }
 
 function writeDisplay() {
-    let upperDisplay = getUpperDisplay();
-    let lowerDisplay = getLowerDisplay();
-    document.querySelector('.display-head').textContent = upperDisplay;
-    document.querySelector('.display-body').textContent = lowerDisplay;
+    if((isFinite(firstNumber) || firstNumber == null) &&  
+       (isFinite(secondNumber) || secondNumber == null)){
+        let upperDisplay = getUpperDisplay();
+        let lowerDisplay = getLowerDisplay();
+        document.querySelector('.display-head').textContent = upperDisplay;
+        document.querySelector('.display-body').textContent = lowerDisplay;
+    }
+    else {
+        started = false;
+        document.querySelector('.display-head').textContent = "Operation ERROR press AC";
+        document.querySelector('.display-body').textContent = "8.8.8.8.8.8.8.8.8.8.";
+    }
 }
 
 function executeNum( num ) {
